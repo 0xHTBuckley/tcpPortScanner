@@ -1,19 +1,32 @@
 #!/bin/bash python3
 
 import socket
+import sys
 
-host = str(input("Please enter the IP: "))
+def usageMsg():
+    print(f"""\nUsage: python3 {sys.argv[0]} [ipAddress] [-sWP]
+            
+            Command Summary: 
+                [-help | -h]     Provides a short guide of how to use the tooling
+                [-sWP]      Scan well known port range (1 - 1023)""")
 
-def portScanner(host):
-    for port in range(0,50000):
+if len(sys.argv) < 2 or sys.argv[1] == "-help":
+    usageMsg()
+    quit()
+
+def scanPorts():
+    host = sys.argv[1]
+    for port in range(0, 65536):
         try:
-            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(5)
-            if not s.connect_ex((host, port)):
+            _socketLoop = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            _socketLoop.settimeout(0.5)
+            if not _socketLoop.connect_ex((host, port)):
                 print(f"Port {port} is open")
-                s.close()     
+                _socketLoop.close()    
         except KeyboardInterrupt:
             print("\nYou have pressed CTRL+C")
-            quit("Exitting!")
+            quit("Exiting!")
+        _socketLoop.close()
 
-portScanner(host)
+scanPorts()
+
