@@ -1,4 +1,4 @@
-#!/bin/bash python3
+#!/usr/bin/python3
 
 import socket
 import sys
@@ -19,7 +19,7 @@ def scanPorts():
     for port in range(0, 65536):
         try:
             _socketLoop = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            _socketLoop.settimeout(0.5)
+            _socketLoop.settimeout(0.01)
             if not _socketLoop.connect_ex((host, port)):
                 print(f"Port {port} is open")
                 _socketLoop.close()    
