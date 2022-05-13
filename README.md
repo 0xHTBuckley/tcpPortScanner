@@ -1,2 +1,2 @@
-# port-scanner
-A port scanning reconnaissance tool.
+# TCP Port Scanner
+A port scanner implementation
