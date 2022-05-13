@@ -81,8 +81,7 @@ def tcpXmasScan():
         except KeyboardInterrupt:
             quit("\nKeyboard Interrupt, exiting!")
 
-def tcpFullConnectScan():
-    host = sys.argv[1]
+def tcpFullConnectScan(host):
     for port in range(0, 65536):
         try:
             _socketLoop = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -96,3 +95,5 @@ def tcpFullConnectScan():
         except socket.error:
             print("\nUnable to make a connection")
             quit("Exiting!")
+        except KeyError:
+            print(f"Port {port} is open / unknown")
