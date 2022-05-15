@@ -23,14 +23,15 @@ def hostnameSweep(host):
             continue
 
 def pingSweep(host): 
-        hostIP = ip_network(host, strict=False)
-        for addr in hostIP:
+    hostIP = ip_network(host, strict=False)
+    for addr in hostIP:
             # Returns a 0 on success | 1 on failure
-            ping = Popen(["ping", "-c", "1", "-n", "-W", "0.025", str(addr)], stdout=PIPE).wait()
-            if ping == 0:
-                print(f"{addr} : Detected as online")
+        ping = Popen(["ping", "-c", "1", "-n", "-W", "0.025", str(addr)], stdout=PIPE).wait()
+        if ping == 0:
+            print(f"{addr} : Detected as online")
 
 def nullScan(host):
+    print("PORT\tSTATE\tSERVICE")
     for dstport in range(0, 65536):
         srcport = random.randint(1, 65535)
         if dstport == srcport:
@@ -38,13 +39,14 @@ def nullScan(host):
         try:
             scan = sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = ""), verbose = 0, timeout = 0.03)
             if scan == None:
-                print(f"{dstport} / {serviceList[str(dstport)]} : Open | Filtered")
+                print(f"{dstport}\topen | filtered\t{serviceList[str(dstport)]}")
             else:
                 continue
         except KeyError:
-            print(f"{dstport} / unknown : Open | Filtered")
+            print(f"{dstport}\topen | filtered\tunknown")
 
 def finScan(host):
+    print("PORT\tSTATE\tSERVICE")
     for dstport in range(0, 65536):
         srcport = random.randint(1, 65535)
         if dstport == srcport:
@@ -52,13 +54,14 @@ def finScan(host):
         try:    
             scan = sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = "F"), verbose = 0, timeout = 0.03)
             if scan == None:
-                print(f"{dstport} / {serviceList[str(dstport)]} : Open | Filtered")
+                print(f"{dstport}\topen | filtered\t{serviceList[str(dstport)]}")
             else:
                 continue
         except KeyError:
-            print(f"{dstport} / unknown : Open | Filtered")
+            print(f"{dstport}\topen | filtered\tunknown")
 
 def tcpSynStealthScan(host):
+    print("PORT\tSTATE\tSERVICE")
     for dstport in range(0, 65536):
         srcport = random.randint(1, 65535)
         if dstport == srcport:
@@ -68,12 +71,13 @@ def tcpSynStealthScan(host):
             if scan == None:
                 continue
             if scan.getlayer(TCP).flags == "SA":
-                print(f"{dstport} / {serviceList[str(dstport)]} : Open")
+                print(f"{dstport}\topen\t{serviceList[str(dstport)]}")
                 sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = "R"), verbose = 0, timeout = 0.01)
         except KeyError:
-            print(f"{dstport} / unknown : Open")
+            print(f"{dstport}\topen\tunknown")
 
 def tcpXmasScan():
+    print("PORT\tSTATE\tSERVICE")
     for dstport in range(0, 65536):
         srcport = random.randint(1, 65535)
         if dstport == srcport:
@@ -81,11 +85,11 @@ def tcpXmasScan():
         try:
             scan = sr1(IP(dst = sys.argv[1])/TCP(sport = srcport, dport = dstport, flags = "PFU"), verbose = 0, timeout = 0.05)
             if scan == None:
-                print(f"{dstport} / {serviceList[str(dstport)]} : Open | Filtered")
+                print(f"{dstport}\topen | filtered\t{serviceList[str(dstport)]}")
             else: 
                 continue
         except KeyError:
-            print(f"{dstport} / unknown : Open | Filtered")
+            print(f"{dstport}\topen | filtered\tunknown")
 
 def tcpFullConnectScan(host):
     print("PORT\tSTATE\tSERVICE")
