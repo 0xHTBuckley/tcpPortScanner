@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 
-from src.functionDefs import hostnameSweep, pingSweep, nullScan, tcpXmasScan, tcpFullConnectScan, tcpSynStealthScan, finScan, startupInterface
+from scanFunctions import nullScan, xmasScan, connectScan, synStealthScan, finScan
+from sweepFunctions import pingSweep, hostnameSweep
 import argparse
-
+from time import time, ctime
+from socket import gethostbyaddr
 #To do:
 #LOW LEVEL
-#FORMAT THE DATA PROPERLY IN ALL THE OTHER DEFS
 #FORMAT THE DATA FOR THE SWEEPING FUNCTIONS
 
 #MID LEVEL
@@ -16,6 +17,13 @@ import argparse
 #REFURBISH AND REFINE ALL FUNCTIONS, SEE IF THERE ARE ANY FLAWS OR OBVIOUS IMPROVEMENTS IN THE LOGIC **
 #PERHAPS AN ARRAY OF FUNCTIONS CAN BE USED TO GIVE THE THREADING FUNCTION THE NEEDED FUNCTION TO THREAD WITHOUT NEEDING TO HARDCODE IT IN
 #TEST THREADING TO SEE IF IMPROVEMENT OR NOT
+
+def startupInterface(host):
+    currentTime=time()
+    hostname = gethostbyaddr(str(host))
+    print(f"Starting port scan at {ctime(currentTime)}")
+    print(f"Scan report for {hostname[0]} ({host})")
+
 def main():
     parser = argparse.ArgumentParser(description = "A port scanner that utilises numerous techniques to perform reconnaissance activities.")
 
@@ -33,15 +41,15 @@ def main():
     startupInterface(args.host)
 
     if args.tcS:
-        tcpFullConnectScan(args.host)
+        connectScan(args.host)
     if args.pS:
         pingSweep(args.host)
     if args.nS:
         nullScan(args.host)
     if args.xS:
-        tcpXmasScan(args.host)
+        xmasScan(args.host)
     if args.ssS:
-        tcpSynStealthScan(args.host)
+        synStealthScan(args.host)
     if args.fS:
         finScan(args.host)
     if args.hS:
@@ -51,4 +59,4 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        quit("Keyboard Interruption, exiting!")
+        quit("\nKeyboard Interruption, exiting!")
