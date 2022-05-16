@@ -9,4 +9,4 @@ def hostnameSweep(host):
             if type(scanResult) == tuple:
                 print(scanResult[0])
         except socket.herror:
-            continue
+            continue 

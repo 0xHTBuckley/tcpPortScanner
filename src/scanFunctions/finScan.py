@@ -1,6 +1,7 @@
 import random
 from scapy.all import sr1, TCP, IP
-from tcpServices import serviceList
+from scanFunctions.serviceList import serviceList
+
 
 def finScan(host):
     print("PORT\tSTATE\tSERVICE")
@@ -16,4 +17,4 @@ def finScan(host):
                 continue
         except KeyError:
             print(f"{dstport}\topen | filtered\tunknown")
-    print("\nPort scan completed")
+    print("\nPort scan completed") 

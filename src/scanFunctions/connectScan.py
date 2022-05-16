@@ -1,5 +1,5 @@
 import socket
-from tcpServices import serviceList
+from scanFunctions.serviceList import serviceList
 
 def connectScan(host):
     print("PORT\tSTATE\tSERVICE")
@@ -15,4 +15,4 @@ def connectScan(host):
             quit("Exiting!")
         except KeyError:
             print(f"{port}\topen\tunknown")
-    print("\nPort scan completed")
+    print("\nPort scan completed") 

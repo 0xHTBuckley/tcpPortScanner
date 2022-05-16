@@ -1,10 +1,18 @@
 #!/usr/bin/python3
 
-from scanFunctions import nullScan, xmasScan, connectScan, synStealthScan, finScan
-from sweepFunctions import pingSweep, hostnameSweep
+from scanFunctions.nullScan import nullScan
+from scanFunctions.xmasScan import xmasScan
+from scanFunctions.connectScan import connectScan
+from scanFunctions.synStealthScan import synStealthScan
+from scanFunctions.finScan import finScan
+from sweepFunctions.pingSweep import pingSweep
+from sweepFunctions.hostnameSweep import hostnameSweep
 import argparse
 from time import time, ctime
 from socket import gethostbyaddr
+
+###TRY TO GET IT TO FUCKING WORK AGAIN OTHERWISE SWITCH BACK TO SINGLE IMPORT .py FILE
+
 #To do:
 #LOW LEVEL
 #FORMAT THE DATA FOR THE SWEEPING FUNCTIONS

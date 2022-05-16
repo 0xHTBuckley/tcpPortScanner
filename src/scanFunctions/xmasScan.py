@@ -1,8 +1,8 @@
 import random
 from scapy.all import sr1, TCP, IP
-from tcpServices import serviceList
+from scanFunctions.serviceList import serviceList
 
-def tcpXmasScan(host):
+def xmasScan(host):
     print("PORT\tSTATE\tSERVICE")
     for dstport in range(0, 65536):
         srcport = random.randint(1, 65535)
@@ -16,4 +16,4 @@ def tcpXmasScan(host):
                 continue
         except KeyError:
             print(f"{dstport}\topen | filtered\tunknown")
-    print("\nPort scan completed")
+    print("\nPort scan completed") 
