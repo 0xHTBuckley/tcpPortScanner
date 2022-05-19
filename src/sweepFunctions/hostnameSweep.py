@@ -2,6 +2,7 @@ import socket
 from ipaddress import ip_network
 
 def hostnameSweep(host):
+    print("IN USE HOSTNAMES")
     hostIP = ip_network(host, strict=False)
     for addr in hostIP:
         try:
