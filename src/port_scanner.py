@@ -7,6 +7,7 @@ from scanFunctions.synStealthScan import synStealthScan
 from scanFunctions.finScan import finScan
 from sweepFunctions.pingSweep import pingSweep
 from sweepFunctions.hostnameSweep import hostnameSweep
+from threadingFunctions.connectScanThreader import Thread
 import argparse
 from time import time, ctime
 from socket import gethostbyaddr
@@ -15,14 +16,20 @@ from socket import gethostbyaddr
 
 #HIGH LEVEL
 #REFURBISH AND REFINE ALL FUNCTIONS, SEE IF THERE ARE ANY FLAWS OR OBVIOUS IMPROVEMENTS IN THE LOGIC **
+#POTENTIALLY PASS THE DST PORT NUMBERS IN AS PARAMETERS TO ENABLE THREADING OF SCANNING AND AVOID THE NEED FOR A LOOP IN EACH FUNCTION
 #PERHAPS AN ARRAY OF FUNCTIONS CAN BE USED TO GIVE THE THREADING FUNCTION THE NEEDED FUNCTION TO THREAD WITHOUT NEEDING TO HARDCODE IT IN
-#TEST THREADING TO SEE IF IMPROVEMENT OR NOT
+#TEST THREADING TO SEE IF IMPROVEMENT OR NOT //FOLLOW CODE FLOW OUTLINED IN proto.py
 
-def startupInterface(host):
+def startupScanInterface(host):
     currentTime=time()
     hostname = gethostbyaddr(str(host))
     print(f"Starting port scan at {ctime(currentTime)}")
     print(f"Scan report for {hostname[0]} ({host})")
+    print("PORT\tSTATE\tSERVICE")
+
+def startupSweepInterface():
+    currentTime=time()
+    print(f"Starting network sweep at {ctime(currentTime)}")
 
 def main():
     parser = argparse.ArgumentParser(description = "A port scanner that utilises numerous techniques to perform reconnaissance activities.")
@@ -39,24 +46,29 @@ def main():
     args = parser.parse_args()
 
     if args.tcS:
-        startupInterface(args.host)
-        connectScan(args.host)
+        startupScanInterface(args.host)
+        Thread(args.host)
     if args.pS:
+        startupSweepInterface()
         pingSweep(args.host)
     if args.nS:
-        startupInterface(args.host)
+        startupScanInterface(args.host)
         nullScan(args.host)
     if args.xS:
-        startupInterface(args.host)
+        startupScanInterface(args.host)
         xmasScan(args.host)
     if args.ssS:
-        startupInterface(args.host)
+        startupScanInterface(args.host)
         synStealthScan(args.host)
     if args.fS:
-        startupInterface(args.host)
+        startupScanInterface(args.host)
         finScan(args.host)
     if args.hS:
+        startupSweepInterface()
         hostnameSweep(args.host)
+
+
+
 
 if __name__ == '__main__':
     try:
