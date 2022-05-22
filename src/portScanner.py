@@ -1,24 +1,15 @@
 #!/usr/bin/python3
 
-from scanFunctions.nullScan import nullScan
-from scanFunctions.xmasScan import xmasScan
-from scanFunctions.connectScan import connectScan
-from scanFunctions.synStealthScan import synStealthScan
-from scanFunctions.finScan import finScan
 from sweepFunctions.pingSweep import pingSweep
 from sweepFunctions.hostnameSweep import hostnameSweep
-from threadingFunctions.connectScanThreader import Thread
+from threadingFunctions.connectScanThreader import connectScanThread
+from threadingFunctions.finScanThreader import finScanThread
+from threadingFunctions.nullScanThreader import nullScanThread
+from threadingFunctions.synStealthScanThreader import synStealthScanThread
+from threadingFunctions.xmasScanThreader import xmasScanThread
 import argparse
 from time import time, ctime
 from socket import gethostbyaddr
-
-#To do:
-
-#HIGH LEVEL
-#REFURBISH AND REFINE ALL FUNCTIONS, SEE IF THERE ARE ANY FLAWS OR OBVIOUS IMPROVEMENTS IN THE LOGIC **
-#POTENTIALLY PASS THE DST PORT NUMBERS IN AS PARAMETERS TO ENABLE THREADING OF SCANNING AND AVOID THE NEED FOR A LOOP IN EACH FUNCTION
-#PERHAPS AN ARRAY OF FUNCTIONS CAN BE USED TO GIVE THE THREADING FUNCTION THE NEEDED FUNCTION TO THREAD WITHOUT NEEDING TO HARDCODE IT IN
-#TEST THREADING TO SEE IF IMPROVEMENT OR NOT //FOLLOW CODE FLOW OUTLINED IN proto.py
 
 def startupScanInterface(host):
     currentTime=time()
@@ -35,7 +26,7 @@ def main():
     parser = argparse.ArgumentParser(description = "A port scanner that utilises numerous techniques to perform reconnaissance activities.")
 
     parser.add_argument("host", help = "IP address to scan", action='store')
-    parser.add_argument("-tcS", help = "Scan through all ports via standard TCP connections", dest='tcS', action='store_true')
+    parser.add_argument("-cS", help = "Scan through all ports via standard TCP connections", dest='cS', action='store_true')
     parser.add_argument("-pS", help = "A ping sweep through a subnet", dest='pS', action='store_true')
     parser.add_argument("-nS", help = "Scan through all ports via NULL scan", dest='nS', action='store_true')
     parser.add_argument("-xS", help = "Scan through all ports via XMAS scan", dest='xS', action='store_true')
@@ -45,24 +36,24 @@ def main():
 
     args = parser.parse_args()
 
-    if args.tcS:
+    if args.cS:
         startupScanInterface(args.host)
-        Thread(args.host)
+        connectScanThread(args.host)
     if args.pS:
         startupSweepInterface()
         pingSweep(args.host)
     if args.nS:
         startupScanInterface(args.host)
-        nullScan(args.host)
+        nullScanThread(args.host)
     if args.xS:
         startupScanInterface(args.host)
-        xmasScan(args.host)
+        xmasScanThread(args.host)
     if args.ssS:
         startupScanInterface(args.host)
-        synStealthScan(args.host)
+        synStealthScanThread(args.host)
     if args.fS:
         startupScanInterface(args.host)
-        finScan(args.host)
+        finScanThread(args.host)
     if args.hS:
         startupSweepInterface()
         hostnameSweep(args.host)

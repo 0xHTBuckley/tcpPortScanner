@@ -1,19 +1,21 @@
 import random
 from scapy.all import sr1, TCP, IP
 from scanFunctions.serviceList import serviceList
+from threading import Lock
 
-def xmasScan(host):
-    print("PORT\tSTATE\tSERVICE")
-    for dstport in range(0, 65536):
-        srcport = random.randint(1, 65535)
+locked = Lock()
+
+def xmasScan(host, dstport):
+        srcport = 80
         if dstport == srcport:
             srcport =+ 1
         try:
-            scan = sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = "PFU"), verbose = 0, timeout = 0.05)
-            if scan == None:
-                print(f"{dstport}\topen | filtered\t{serviceList[str(dstport)]}")
+            scan = sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = "PFU"), verbose = 0, timeout = 1)
+            if scan != None:
+                pass
             else: 
-                continue
+                with locked:
+                    print(f"{dstport}\topen|filtered\t{serviceList[str(dstport)]}")
         except KeyError:
-            print(f"{dstport}\topen | filtered\tunknown")
-    print("\nPort scan completed") 
+            with locked:
+                print(f"{dstport}\topen|filtered\tunknown")

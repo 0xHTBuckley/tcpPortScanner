@@ -1,20 +1,24 @@
 import random
 from scapy.all import sr1, TCP, IP
 from scanFunctions.serviceList import serviceList
+from threading import Lock
 
-def synStealthScan(host):
-    print("PORT\tSTATE\tSERVICE")
-    for dstport in range(0, 65536):
-        srcport = random.randint(1, 65535)
-        if dstport == srcport:
-            srcport += 1
-        try:
-            scan = sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = "S"), verbose = 0, timeout = 0.01)
-            if scan == None:
-                continue
-            if scan.getlayer(TCP).flags == "SA":
+locked = Lock()
+
+def synStealthScan(host, dstport):
+    srcport = 80
+    if dstport == srcport:
+        srcport += 1
+    try:
+        scan = sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = "S"), verbose = 0, timeout = 0.01)
+        if scan == None:
+            pass
+        if scan.getlayer(TCP).flags == "SA":
+            with locked:
                 print(f"{dstport}\topen\t{serviceList[str(dstport)]}")
-                sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = "R"), verbose = 0, timeout = 0.01)
-        except KeyError:
+        sr1(IP(dst = host)/TCP(sport = srcport, dport = dstport, flags = "R"), verbose = 0, timeout = 0.01)
+    except KeyError:
+        with locked:
             print(f"{dstport}\topen\tunknown")
-    print("\nPort scan completed") 
+    except: 
+        pass

@@ -1,19 +1,19 @@
 import threading
 from queue import Queue
-from scanFunctions.connectScan import connectScan
+from scanFunctions.xmasScan import xmasScan
 
-def connectScanThreader(host):
+def xmasScanThreader(host):
     while True:
         worker = queueOfPorts.get()
-        connectScan(host, worker)
+        xmasScan(host, worker)
         queueOfPorts.task_done()
 
 queueOfPorts = Queue()
 
-def connectScanThread(host):
+def xmasScanThread(host):
     ipaddress = [str(host)]
     for x in range(10):
-        scanningThread = threading.Thread(target = connectScanThreader, args = ipaddress)
+        scanningThread = threading.Thread(target = xmasScanThreader, args = ipaddress)
         scanningThread.daemon = True
         scanningThread.start()
     for worker in range(1, 65536):

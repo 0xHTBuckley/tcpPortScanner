@@ -1,16 +1,16 @@
 import threading
 from queue import Queue
-from scanFunctions.connectScan import connectScan
+from scanFunctions.finScan import finScan
 
 def connectScanThreader(host):
     while True:
         worker = queueOfPorts.get()
-        connectScan(host, worker)
+        finScan(host, worker)
         queueOfPorts.task_done()
 
 queueOfPorts = Queue()
 
-def connectScanThread(host):
+def finScanThread(host):
     ipaddress = [str(host)]
     for x in range(10):
         scanningThread = threading.Thread(target = connectScanThreader, args = ipaddress)
