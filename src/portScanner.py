@@ -7,6 +7,7 @@ from threadingFunctions.finScanThreader import finScanThread
 from threadingFunctions.nullScanThreader import nullScanThread
 from threadingFunctions.synStealthScanThreader import synStealthScanThread
 from threadingFunctions.xmasScanThreader import xmasScanThread
+from threadingFunctions.defaultScanThreader import defaultScanThread
 import argparse
 from time import time, ctime
 from socket import gethostbyaddr
@@ -57,6 +58,9 @@ def main():
     if args.hS:
         startupSweepInterface()
         hostnameSweep(args.host)
+    if args.host:
+        startupScanInterface(args.host)
+        defaultScanThread(args.host)
 
 
 
