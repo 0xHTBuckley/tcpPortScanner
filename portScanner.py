@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 
-from sweepFunctions.pingSweep import pingSweep
-from sweepFunctions.hostnameSweep import hostnameSweep
-from threadingFunctions.connectScanThreader import connectScanThread
-from threadingFunctions.finScanThreader import finScanThread
-from threadingFunctions.nullScanThreader import nullScanThread
-from threadingFunctions.synStealthScanThreader import synStealthScanThread
-from threadingFunctions.xmasScanThreader import xmasScanThread
-from threadingFunctions.defaultScanThreader import defaultScanThread
+from src.sweepFunctions.pingSweep import pingSweep
+from src.sweepFunctions.hostnameSweep import hostnameSweep
+from src.threadingFunctions.connectScanThreader import connectScanThread
+from src.threadingFunctions.finScanThreader import finScanThread
+from src.threadingFunctions.nullScanThreader import nullScanThread
+from src.threadingFunctions.synStealthScanThreader import synStealthScanThread
+from src.threadingFunctions.xmasScanThreader import xmasScanThread
+from src.threadingFunctions.defaultScanThreader import defaultScanThread
 import argparse
 from time import time, ctime
 from socket import gethostbyaddr
