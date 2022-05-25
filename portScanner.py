@@ -12,6 +12,9 @@ import argparse
 from time import time, ctime
 from socket import gethostbyaddr
 
+#TRY UDP AGAIN
+#DOCUMENTATION AS IN README.md
+
 def startupScanInterface(host):
     currentTime=time()
     hostname = gethostbyaddr(str(host))
@@ -40,27 +43,35 @@ def main():
     if args.cS:
         startupScanInterface(args.host)
         connectScanThread(args.host)
+        quit()
     if args.pS:
         startupSweepInterface()
         pingSweep(args.host)
+        quit()
     if args.nS:
         startupScanInterface(args.host)
         nullScanThread(args.host)
+        quit()
     if args.xS:
         startupScanInterface(args.host)
         xmasScanThread(args.host)
+        quit()
     if args.ssS:
         startupScanInterface(args.host)
         synStealthScanThread(args.host)
+        quit()
     if args.fS:
         startupScanInterface(args.host)
         finScanThread(args.host)
+        quit()
     if args.hS:
         startupSweepInterface()
         hostnameSweep(args.host)
+        quit()
     if args.host:
         startupScanInterface(args.host)
         defaultScanThread(args.host)
+        quit()
 
 
 
