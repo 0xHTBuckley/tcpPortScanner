@@ -1,23 +1,22 @@
 
 # Port Scanner & Network Enumerator
 
-A brief description of what this project does and who it's for
+This project was created to imitate the popular Nmap scanning tool. However, it is no replacement as Nmap has a multitude more features and is more efficient. This is simply an instrument for learning about the reconnaissance stage of a cyber-attack. The scanner is only capable of local-network connections.
 
 
 ## Features
 
-Scanning:
-- SYN half-connect
-- SYN ACK full connect
-- NULL
-- FIN
-- XMAS
-Sweeping:
-- Hostname
-- Ping (ARP)
+- SYN half-connect Scan
+- SYN ACK full connect Scan
+- NULL Scan
+- FIN Scan
+- XMAS Scan
+- Hostname Sweep
+- Ping (ARP) Sweep
+
 ## Lessons Learned
 
-What did you learn while building this project? What challenges did you face and how did you overcome them?
+I undertook this project, as my first, to further educate myself on the TCP handshake process alongside the reconnaissance and enumeration techniques of a cyber-attack. Through this I have gained new skills in the Scapy Python library, and am now able to manipulate and create specialised packets.
 
 
 ## Dependencies
@@ -31,16 +30,10 @@ Clone the repository
   git clone https://github.com/0xsys/tcpPortScanner
 ```
 
-Go to the repository directory
+Go to the repository directory, then the src directory
 
 ```bash
-  cd tcpPortScanner
-```
-
-Go to the src directory
-
-```bash
-  cd src
+  cd tcpPortScanner/src
 ```
 
 Run the Python3 script
